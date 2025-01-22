@@ -12,5 +12,5 @@ class JointCurrentsSubscriber(BaseSubscriber):
         rospy.Subscriber("/dclaw/joint_currents", Int32MultiArray, self.callback)
 
     def callback(self, data: Int32MultiArray):
-        self.joint_currents = data
+        self.data = data.data
         self.update_flag()

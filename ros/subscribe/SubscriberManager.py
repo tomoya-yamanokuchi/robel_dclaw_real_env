@@ -16,14 +16,16 @@ class SubscriberManager:
         self.subscribers           = {} # 各IDとその状態を保持
         self.all_initialized       = None
         # -----
-        self.initialization_state = InitializationStateSubscriber() # これだけ登録しない
-        # ------
-        JointPositionsSubscriber     (id=1, manager=self)
-        JointCurrentsSubscriber      (id=2, manager=self)
-        JointVelocitiesSubscriber    (id=3, manager=self)
-        ValveMovingSubscriber        (id=4, manager=self)
-        ValvePositionSubscriber      (id=0, manager=self)
+        self.initialization_state  = InitializationStateSubscriber() # これだけ登録しない
+        self.joint_positions       = JointPositionsSubscriber (id=1, manager=self)
+        self.joint_currents        = JointCurrentsSubscriber  (id=2, manager=self)
+        self.joint_velocities      = JointVelocitiesSubscriber(id=3, manager=self)
+        self.valve_moving          = ValveMovingSubscriber    (id=4, manager=self)
+        self.valve_position        = ValvePositionSubscriber  (id=0, manager=self)
 
+    '''
+        initialization related function
+    '''
     def register(self, subscriber: BaseSubscriber):
         self.subscribers[subscriber.id] = False  # 初期状態は False
 
@@ -39,3 +41,13 @@ class SubscriberManager:
 
     def notify_all_initialized(self):
         rospy.loginfo("ROS connection is establised!")
+
+
+    '''
+        subscribe related function
+    '''
+    def get_joint_positions(self):
+        return self.joint_positions.data
+
+    def get_valve_position(self):
+        return self.valve_position.data

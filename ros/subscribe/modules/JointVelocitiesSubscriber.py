@@ -12,5 +12,5 @@ class JointVelocitiesSubscriber(BaseSubscriber):
         rospy.Subscriber("/dclaw/joint_velocities", Int32MultiArray, self.callback)
 
     def callback(self, data: Int32MultiArray):
-        self.joint_velocities = data.data
+        self.data = data.data
         self.update_flag()

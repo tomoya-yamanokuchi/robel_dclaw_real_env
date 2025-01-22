@@ -12,5 +12,5 @@ class JointPositionsSubscriber(BaseSubscriber):
         rospy.Subscriber("/dclaw/joint_positions", Int32MultiArray, self.callback)
 
     def callback(self, data: Int32MultiArray):
-        self.joint_positions = data.data
+        self.data = data.data
         self.update_flag()

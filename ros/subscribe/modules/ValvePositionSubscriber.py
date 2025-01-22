@@ -12,5 +12,5 @@ class ValvePositionSubscriber(BaseSubscriber) :
         rospy.Subscriber("/dclaw/valve_position", Int32, self.callback)
 
     def callback(self, data: Int32):
-        self.valve_position = data.data
+        self.data = data.data
         self.update_flag()
