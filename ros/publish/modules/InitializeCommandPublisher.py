@@ -1,23 +1,21 @@
 import rospy
 import numpy as np
 from std_msgs.msg import Int32MultiArray
+from ...utils import ParameterObject
 
 
 class InitializeCommandPublisher:
-    def __init__(self,
-            sleep_time_sec: float = 1.0,
-            queue_size    : int   = 10,
-        ):
+    def __init__(self, params: ParameterObject):
         # ------
         self.TOPIC_NAME : str = "/dclaw/initialize_ctrl/command"
-        self.sleep_time_sec   = sleep_time_sec
-        self.queue_size       = queue_size
+        self.sleep_time_sec   = params.sleep_time_sec
+        self.queue_size       = params.queue_size
         # -------
         self._msg = Int32MultiArray()
         self._pub = rospy.Publisher(
             name       = self.TOPIC_NAME,
             data_class = Int32MultiArray,
-            queue_size = queue_size,
+            queue_size = self.queue_size,
         )
         # -------
         self._num_ctrl            = 9

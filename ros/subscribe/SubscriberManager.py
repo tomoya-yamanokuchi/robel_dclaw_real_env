@@ -6,15 +6,17 @@ from .modules import JointCurrentsSubscriber
 from .modules import JointVelocitiesSubscriber
 from .modules import ValveMovingSubscriber
 from .modules import ValvePositionSubscriber
+from ..utils import ParameterObject
 
 
 class SubscriberManager:
-    def __init__(self):
+    def __init__(self, params: ParameterObject):
+        # ----
         self.num_total_subscribers = 5
         self.subscribers           = {} # 各IDとその状態を保持
         self.all_initialized       = None
         # -----
-        InitializationStateSubscriber()
+        self.initialization_state = InitializationStateSubscriber() # これだけ登録しない
         # ------
         JointPositionsSubscriber     (id=1, manager=self)
         JointCurrentsSubscriber      (id=2, manager=self)
@@ -36,4 +38,4 @@ class SubscriberManager:
             self.notify_all_initialized()
 
     def notify_all_initialized(self):
-        rospy.loginfo("All initialization states are True!")
+        rospy.loginfo("ROS connection is establised!")
