@@ -1,17 +1,15 @@
 import numpy as np
 from .. import RobelDClawValveRealEnvironment
-from robel_dclaw_ros.utils import get_initial_positions
-from dynamixel_ros_service import Control
+from robel_dclaw_task_space.value_object import Manifold1D
 
 
 def run_tests():
     # ----
-    ctrl_res = get_initial_positions()
-    ctrl     = Control.from_resvec(ctrl_res)
-    ctrl_rad = ctrl.as_radvec()
+    task_space_position_init = np.array([0, 0, 0])
+    task_space_ctrl_init     = Manifold1D(value=task_space_position_init.reshape(1,1,3))
     # ----
     env = RobelDClawValveRealEnvironment()
-    env.reset(ctrl_init=ctrl_rad)
+    env.reset(task_space_ctrl_init)
     # ----
 
 if __name__ == "__main__":

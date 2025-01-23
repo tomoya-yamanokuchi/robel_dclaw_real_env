@@ -10,7 +10,7 @@ def run_tests():
     while not rospy.is_shutdown():
         try:
             state = env.get_state()
-            print(f"robot_position = {state.robot_position} | valve_position = {state.object_position}")
+            print(f"robot_position = {state.robot_position}")
         except Exception:
             rospy.logwarn("An exception occurred during state retrieval.")
         rate.sleep()
