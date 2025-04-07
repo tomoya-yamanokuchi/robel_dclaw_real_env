@@ -1,11 +1,12 @@
 from sqlite3 import paramstyle
 import numpy as np
 from .. import RobelDClawValveRealEnvironment
-from robel_dclaw_task_space.value_object import Manifold1D
+from robel_dclaw_task_space import TaskSpaceValueObjectFactory
 from robel_dclaw_ros.utils import ParameterObject
 
 
 def run_tests():
+    Manifold1D = TaskSpaceValueObjectFactory.create(task_space_name="manifold_1d")
     # ----
     task_space_position_init = np.array([0.65, 0.18, 0.65])
     task_space_ctrl_init     = Manifold1D(value=task_space_position_init.reshape(1,1,3))
