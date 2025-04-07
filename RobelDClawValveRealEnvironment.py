@@ -30,14 +30,16 @@ class RobelDClawValveRealEnvironment:
 
         # import ipdb; ipdb.set_trace()
 
-    def reset(self, task_space_ctrl_init: AbstractTaskSpaceObject):
+    def reset(self, task_space_ctrl_init: AbstractTaskSpaceObject, valve_position_init: float = None):
         task_space_position   = task_space_ctrl_init.value.squeeze()
         end_effector_position = self.task_space_interface.task2end(task_space_position)
         joint_space_position  = self.inverse_kinematics.calc(end_effector_position)
         joint_space_position  = np.squeeze(joint_space_position)
         # -------
-        ctrl = Orientation.from_radvec(radvec=joint_space_position)
-        self.ros.publisher.publish_initialize_ctrl(ctrl=ctrl)
+        robot_ctrl = Orientation.from_radvec(radvec=joint_space_position)
+        valve_ctrl = Orientation.from_radvec(radvec=valve_position_init)
+        # -------
+        self.ros.publisher.publish_initialize_ctrl(robot_ctrl, valve_ctrl)
         self.ros.wait_initialization()
 
     def set_ctrl_task_sapce(self, task_space_ctrl: AbstractTaskSpaceObject):
